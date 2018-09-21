@@ -229,6 +229,7 @@ DEPENDENCIES
   pg (~> 0.21)
   rails (= 4.2.10)
   rails_12factor
+  rake
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
@@ -243,4 +244,4 @@ RUBY VERSION
    ruby 2.4.4p296
 
 BUNDLED WITH
-   1.16.1
+   1.16.4
