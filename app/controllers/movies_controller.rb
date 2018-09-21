@@ -22,7 +22,7 @@ class MoviesController < ApplicationController
     @orderBy = params[:orderType] || session[:orderType] || "title"
 		
 	#save user settings in session
-	session[:orderType] = @orderBy
+	session[:orderType] = @orderType
 	session[:ratings] = @ratings
 
     #first time settings
@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
 	end
 	
 	# selection
-	@movies = Movie.where(rating: @ratings).order(@orderBy + " ASC")
+	@movies = Movie.where(rating: @ratings).order(@orderType + " ASC")
   end
 
   def new
