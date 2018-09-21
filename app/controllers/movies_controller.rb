@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
 	end
 	
 	# selection
-	@movies = Movie.where(rating: @ratings).order(@orderType + " ASC")
+	@movies = Movie.where(rating: @ratings).order(@orderType + " asc")
   end
 
   def new
