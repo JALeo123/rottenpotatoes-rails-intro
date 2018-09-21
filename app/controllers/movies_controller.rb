@@ -11,25 +11,27 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.ratings
-		
-		if params[:ratings].respond_to? 'keys'
-			@ratings = params[:ratings].keys 
-		else
-			@ratings = params[:ratings] || session[:ratings] || @all_ratings
-		end
-			
-        @orderBy = params[:orderBy] || session[:orderBy] || "title"
-		
-		#save user settings in session
-		session[:orderBy] = @orderBy
-		session[:ratings] = @ratings
-
-		if (params[:ratings].nil? || params[:orderBy].nil?) && (session[:orderBy] != nil && session[:ratings] != nil)
-			redirect_to movies_path(orderBy: session[:orderBy], ratings: session[:ratings])
-		end
-		# database query
-		@movies = Movie.where(rating: @ratings).order(@orderBy + " asc")
+   if(!params.has_key?(:sort) && !params.has_key?(:ratings))
+      if(session.has_key?(:sort) || session.has_key?(:ratings))
+        redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
+      end
+    end
+    @sort = params.has_key?(:sort) ? (session[:sort] = params[:sort]) : session[:sort]
+    @all_ratings = Movie.all_ratings.keys
+    @ratings = params[:ratings]
+    if(@ratings != nil)
+      ratings = @ratings.keys
+      session[:ratings] = @ratings
+    else
+      if(!params.has_key?(:commit) && !params.has_key?(:sort))
+        ratings = Movie.all_ratings.keys
+        session[:ratings] = Movie.all_ratings
+      else
+        ratings = session[:ratings].keys
+      end
+    end
+    @movies = Movie.order(@sort).find_all_by_rating(ratings)
+    @mark  = ratings
   end
 
   def new
