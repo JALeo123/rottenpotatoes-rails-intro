@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
 		@ratings = params[:ratings] || session[:ratings] || @all_ratings
 	end
 			
-    @orderBy = params[:orderType] || session[:orderType] || "title"
+    @orderTypr = params[:orderType] || session[:orderType] || "title"
 		
 	#save user settings in session
 	session[:orderType] = @orderType
