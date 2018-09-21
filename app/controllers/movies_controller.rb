@@ -19,17 +19,17 @@ class MoviesController < ApplicationController
 		@ratings = params[:ratings] || session[:ratings] || @all_ratings
 	end
 			
-    @orderBy = params[:orderBy] || session[:orderBy] || "title"
+    @orderType = params[:orderType] || session[:orderType] || "title"
 		
 	#save user settings in session
-	session[:orderBy] = @orderBy
+	session[:orderType] = @orderType
 	session[:ratings] = @ratings
 
-	if (params[:ratings].nil? || params[:orderBy].nil?) && (session[:orderBy] != nil && session[:ratings] != nil)
-		redirect_to movies_path(orderBy: session[:orderBy], ratings: session[:ratings])
+	if (params[:ratings].nil? || params[:orderType].nil?) && (session[:orderType] != nil && session[:ratings] != nil)
+		redirect_to movies_path(orderBy: session[:orderType], ratings: session[:ratings])
 	end
 	# database query
-	@movies = Movie.where(rating: @ratings).order(@orderBy + " asc")
+	@movies = Movie.where(rating: @ratings).order(@orderType + " asc")
   end
 
   def new
