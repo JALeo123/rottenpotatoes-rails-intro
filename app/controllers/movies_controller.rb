@@ -21,14 +21,14 @@ class MoviesController < ApplicationController
 			
     @orderBy = params[:orderBy] || session[:orderBy] || "title"
 		
-	#save user settings in session
+	#save user settings in session, saves both ordering and ratings
 	session[:orderBy] = @orderBy
 	session[:ratings] = @ratings
 
 	if (params[:ratings].nil? || params[:orderBy].nil?) && (session[:orderBy] != nil && session[:ratings] != nil)
 		redirect_to movies_path(orderBy: session[:orderBy], ratings: session[:ratings])
 	end
-	# database query
+	# database query command, will also order query based on orderBy var
 	@movies = Movie.where(rating: @ratings).order(@orderBy + " asc")
   end
 
